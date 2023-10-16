@@ -2,29 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Task from "./Task";
 import EditTask from "./EditTask";
 
-import { createClient } from "@supabase/supabase-js";
-
 function App() {
-  const supabaseUrl = "https://yhgnykgkrhwkchpfbiez.supabase.co";
-
-  useEffect(() => {
-    // Initialize the Supabase client
-    const supabase = createClient(
-      supabaseUrl,
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InloZ255a2drcmh3a2NocGZiaWV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc0NzA4NzMsImV4cCI6MjAxMzA0Njg3M30.WZKIj8D2UT1tgDSQx8hRq4cwT48n7hgQv55PL5p1WYk"
-    );
-    // Fetch data from a table
-    const fetchData = async () => {
-      let { data, error } = await supabase.from("tasks").select("*");
-      if (error) {
-        console.error("Error fetching data:", error);
-      } else {
-        console.log(data);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
@@ -34,12 +12,20 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodos([e.target[0].value, ...todos]);
-    setInput("");
+    const reg = /\s+/g;
+    //  && input.replace(reg,'')
+    if(input!==""  && input.replace(reg,'')){
+      setTodos([e.target[0].value.replace(reg,''), ...todos]);
+      setInput("");
+    }
   };
 
   const handleEdit = (index) => {
+    if(editIndex!==null && editIndex!==index){
+      handleEditTask(index,todos[index]);
+    }
     setEditIndex(index);
+    console.log(editIndex);
   };
 
   const handleEditTask = (index, newValue) => {
@@ -62,18 +48,16 @@ function App() {
     inputRef.current.focus();
   }, []);
 
-  // Save Todos to local storage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+  // useEffect(() => {
+  //   localStorage.setItem("todos", JSON.stringify(todos));
+  // }, [todos]);
 
-  // Load Todos from local storage on mount
-  useEffect(() => {
-    const storedTodos = JSON.parse(localStorage.getItem("todos"));
-    if (storedTodos) {
-      setTodos(storedTodos);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedTodos = JSON.parse(localStorage.getItem("todos"));
+  //   if (storedTodos) {
+  //     setTodos(storedTodos);
+  //   }
+  // }, []);
 
   return (
     <>
