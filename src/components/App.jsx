@@ -1,28 +1,31 @@
 import { useState, useEffect } from "react";
-
 import Task from "./Task";
+import EditTask from "./EditTask";
 
 function App() {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    const savedTodos = JSON.parse(localStorage.getItem("todos"));
-    console.log(savedTodos);
-    if (savedTodos) {
-      setTodos(savedTodos);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-    console.log(localStorage.getItem("todos"));
-  }, [todos]);
+  const [editIndex, setEditIndex] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTodos([...todos, e.target[0].value]);
+    setTodos([e.target[0].value,...todos]);
     setInput("");
+  };
+
+  const handleEdit = (index) => {
+    setEditIndex(index);
+  };
+
+  const handleEditTask = (index, newValue) => {
+    const updatedTodos = todos.map((item, i) => {
+      if (i === index) {
+        return newValue;
+      }
+      return item;
+    });
+    setTodos(updatedTodos);
+    setEditIndex(null);
   };
 
   const handleDelete = (index) => {
@@ -32,22 +35,35 @@ function App() {
 
   return (
     <>
+      <h1>Todo List</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          name="task"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
         <button type="submit">Add</button>
       </form>
       <div>
+        {editIndex !== null && (
+          <EditTask
+            task={todos[editIndex]}
+            onSave={(newValue) => handleEditTask(editIndex, newValue)}
+            onCancel={() => setEditIndex(null)}
+          />
+        )}
+      </div>
+      <div>
         <ul className="todo-list">
           {todos.map((todo, index) => (
             <li key={index} className="list-item">
-              <Task task={todo} />
-              <button className="close-btn" onClick={() => handleDelete(index)}>
-                x
-              </button>
+              <Task
+                task={todo}
+                index={index}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+              />
             </li>
           ))}
         </ul>
