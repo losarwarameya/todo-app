@@ -1,15 +1,15 @@
 import React from "react";
 
 const Task = (props) => {
-  const { task,index,handleDelete,handleEdit } = props;
+  const { task, index, handleDelete, handleEdit } = props;
 
   return (
     <div>
-      <p>{task}</p>
+      <div>
+        <p>{task}</p>
+      </div>
       <button onClick={() => handleEdit(index)}>edit</button>
-      <button onClick={() => handleDelete(index)}>
-        x
-      </button>
+      <button onClick={() => handleDelete(index)}>✖</button>
     </div>
   );
 };

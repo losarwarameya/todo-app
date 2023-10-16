@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Task from "./Task";
 import EditTask from "./EditTask";
 
@@ -6,6 +6,8 @@ function App() {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+
+  const inputRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +35,10 @@ function App() {
     setTodos(updatedTodos);
   };
 
+  useEffect(() => {
+    inputRef.current.focus();
+  },[])
+
   return (
     <>
       <h1>Todo List</h1>
@@ -42,6 +48,7 @@ function App() {
           name="task"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          ref={inputRef}
         />
         <button type="submit">Add</button>
       </form>
