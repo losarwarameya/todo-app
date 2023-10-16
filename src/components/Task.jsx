@@ -1,8 +1,11 @@
 import React from 'react'
 
 const Task = (props) => {
+    const {task} = props;
   return (
-    <div>Task</div>
+    <div>
+        {task}
+    </div>
   )
 }
 
