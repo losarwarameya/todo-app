@@ -1,5 +1,3 @@
-import React from "react";
-
 const Task = (props) => {
   const { task, index, handleDelete, handleEdit } = props;
 
