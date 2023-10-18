@@ -20,16 +20,17 @@ const EditTask = (props) => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="edit-task-form">
       <input
         type="text"
         name="task"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         ref={editRef}
+        className="edit-task-input"
       />
-      <button type="submit">✔</button>
-      <button onClick={handleCancel}>✖</button>
+      <button type="submit" className="btn btn-edit-confirm">✔</button>
+      <button onClick={handleCancel} className="btn btn-edit-cancel">✖</button>
     </form>
   );
 };

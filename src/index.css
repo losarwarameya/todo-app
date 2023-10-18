@@ -1,10 +1,68 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
-html,body{
-    width: 100vw;
-    height: 100vh;
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  background: rgb(2, 0, 36);
+  background: radial-gradient(
+    circle,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 25%,
+    rgba(56, 176, 200, 1) 100%
+  );
+  text-align: center;
+}
+.main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.container{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.top-container{
+    color: white;
+    width: 80%;
+}
+.edit-container{
+    width: 80%;
+}
+.content-container{
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+.todo-list{
+    list-style: none;
+}
+.todo{
+    display: flex;
+    justify-content: space-between;
+}
+.todo-task-btns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn{
+    padding: 5px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+.btn-task-edit{
+    background: blueviolet;
+}
+.edit-image{
+    width: 25px;
+    height: 25px;
 }
