@@ -13,10 +13,11 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const reg = /\s+/g;
-    //  && input.replace(reg,'')
     if(input!==""  && input.replace(reg,'')){
-      setTodos([e.target[0].value.replace(reg,''), ...todos]);
+      const updatedTodos = [e.target[0].value.replace(reg,''),...todos];
+      setTodos(updatedTodos);
       setInput("");
+      localStorage.setItem('todos',JSON.stringify(updatedTodos));
     }
   };
 
@@ -25,7 +26,6 @@ function App() {
       handleEditTask(index,todos[index]);
     }
     setEditIndex(index);
-    console.log(editIndex);
   };
 
   const handleEditTask = (index, newValue) => {
@@ -36,28 +36,26 @@ function App() {
       return item;
     });
     setTodos(updatedTodos);
+    localStorage.setItem('todos',JSON.stringify(updatedTodos));
     setEditIndex(null);
   };
 
   const handleDelete = (index) => {
     const updatedTodos = todos.filter((item, i) => i !== index);
     setTodos(updatedTodos);
+    localStorage.setItem('todos',JSON.stringify(updatedTodos));
   };
 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(todos));
-  // }, [todos]);
-
-  // useEffect(() => {
-  //   const storedTodos = JSON.parse(localStorage.getItem("todos"));
-  //   if (storedTodos) {
-  //     setTodos(storedTodos);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (storedTodos) {
+      setTodos(storedTodos);
+    }
+  }, []);
 
   return (
     <>
